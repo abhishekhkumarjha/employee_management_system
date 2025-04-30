@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>EmpowerHR - Employee Directory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+        :root {
+            /* Color System */
+            --primary-50: #e6f2ff;
+            --primary-100: #cce5ff;
+            --primary-200: #99caff;
+            --primary-300: #66a9ff;
+            --primary-400: #3387ff;
+            --primary-500: #0070F3;
+            --primary-600: #005ccb;
+            --primary-700: #0047a3;
+            --primary-800: #00337a;
+            --primary-900: #001f52;
+            
+            --success-50: #e3f9e5;
+            --success-100: #c7f3cb;
+            --success-200: #a0e8a7;
+            --success-300: #78de83;
+            --success-400: #51d45f;
+            --success-500: #34C759;
+            --success-600: #2bb04c;
+            --success-700: #22983f;
+            --success-800: #198031;
+            --success-900: #0f6724;
+            
+            --warning-50: #fff8e6;
+            --warning-100: #ffefc0;
+            --warning-200: #ffe08a;
+            --warning-300: #ffd054;
+            --warning-400: #ffc12e;
+            --warning-500: #FF9F0A;
+            --warning-600: #fa8c00;
+            --warning-700: #cc7000;
+            --warning-800: #995400;
+            --warning-900: #663800;
+            
+            --danger-50: #ffe5e5;
+            --danger-100: #ffcccc;
+            --danger-200: #ff9999;
+            --danger-300: #ff6666;
+            --danger-400: #ff3333;
+            --danger-500: #FF3B30;
+            --danger-600: #cc0000;
+            --danger-700: #990000;
+            --danger-800: #660000;
+            --danger-900: #330000;
+
+            --gray-50: #f8f9fa;
+            --gray-100: #f1f3f5;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+
+            /* Light Theme */
+            --bg-primary: var(--gray-50);
+            --bg-secondary: #ffffff;
+            --bg-tertiary: var(--gray-100);
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-700);
+            --text-tertiary: var(--gray-600);
+            --border-color: var(--gray-200);
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.04), 0 3px 6px rgba(0, 0, 0, 0.08);
+            
+            /* Spacing System */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.5rem;
+            --space-6: 2rem;
+            --space-7: 2.5rem;
+            --space-8: 3rem;
+            
+            /* Typography */
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            
+            /* Animation */
+            --transition-fast: 150ms ease;
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Layout */
+            --sidebar-width: 250px;
+            --sidebar-collapsed-width: 80px;
+            --header-height: 64px;
+        }
+
+        /* Dark Theme */
+        .dark-theme {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --bg-tertiary: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #e5e7eb;
+            --text-tertiary: #9ca3af;
+            --border-color: #374151;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+            --card-shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .light-theme .sun-icon { display: none; }
+        .light-theme .moon-icon { display: block; }
+        .dark-theme .sun-icon { display: block; }
+        .dark-theme .moon-icon { display: none; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: var(--font-size-base);
+            line-height: 1.5;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            transition: var(--transition-base);
+            transition-property: color, background-color;
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            transition: width var(--transition-base);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar.collapsed .sidebar-header h1,
+        .sidebar.collapsed .sidebar-nav span,
+        .sidebar.collapsed .sidebar-footer span {
+            display: none;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-5);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .logo h1 {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+            padding: var(--space-2);
+        }
+
+        .sidebar-toggle span {
+            width: 20px;
+            height: 2px;
+            background-color: var(--text-secondary);
+            transition: all var(--transition-base);
+        }
+
+        .sidebar-nav {
+            padding: var(--space-5) 0;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: var(--space-2);
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-5);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-base);
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav .active a {
+            background-color: var(--bg-tertiary);
+            color: var(--primary-500);
+        }
+
+        .sidebar-nav a svg {
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer {
+            padding: var(--space-5);
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            width: 100%;
+            padding: var(--space-3);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--primary-500);
+        }
+
+        .logout-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-base);
+        }
+
+        .logout-link:hover {
+            background-color: rgba(255, 59, 48, 0.1);
+            color: var(--danger-500);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: var(--space-5);
+            transition: margin-left var(--transition-base);
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        .directory-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-5);
+            flex-wrap: wrap;
+            gap: var(--space-4);
+        }
+
+        .header h1 {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .add-employee-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            background-color: var(--primary-500);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background-color var(--transition-base);
+            font-size: var(--font-size-sm);
+        }
+
+        .add-employee-btn:hover {
+            background-color: var(--primary-600);
+        }
+
+        /* Filters */
+        .filters {
+            background-color: var(--bg-secondary);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-5);
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: var(--space-4);
+        }
+
+        .search-container svg {
+            position: absolute;
+            left: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: var(--space-2) var(--space-3) var(--space-2) var(--space-7);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: var(--font-size-sm);
+            transition: var(--transition-base);
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+        }
+
+        .filter-selects {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .select-container {
+            position: relative;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .select-container select {
+            width: 100%;
+            padding: var(--space-2) var(--space-7) var(--space-2) var(--space-3);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: var(--font-size-sm);
+            appearance: none;
+            transition: var(--transition-base);
+        }
+
+        .select-container svg {
+            position: absolute;
+            right: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+            pointer-events: none;
+        }
+
+        /* Employee Grid */
+        .employee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-5);
+            margin-bottom: var(--space-6);
+        }
+
+        .employee-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all var(--transition-base);
+            box-shadow: var(--card-shadow);
+        }
+
+        .employee-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .employee-header {
+            padding: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .employee-avatar {
+            width: 4rem;
+            height: 4rem;
+            border-radius: var(--radius-full);
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+        }
+
+        .employee-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .employee-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .employee-title {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-sm);
+        }
+
+        .employee-details {
+            padding: var(--space-4);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-item svg {
+            margin-right: var(--space-2);
+            color: var(--text-tertiary);
+            flex-shrink: 0;
+        }
+
+        .detail-item a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .detail-item a:hover {
+            color: var(--primary-500);
+        }
+
+        .employee-actions {
+            padding: var(--space-2);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: center;
+        }
+
+        .action-btn {
+            color: var(--text-tertiary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-1);
+            transition: color var(--transition-base);
+        }
+
+        .action-btn:hover {
+            color: var(--primary-500);
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--space-6);
+            flex-wrap: wrap;
+            gap: var(--space-4);
+        }
+
+        .pagination-info {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-sm);
+        }
+
+        .pagination {
+            display: flex;
+            gap: var(--space-1);
+        }
+
+        .page-btn {
+            min-width: 2.25rem;
+            height: 2rem;
+            padding: 0 var(--space-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-size: var(--font-size-sm);
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background-color: var(--bg-tertiary);
+        }
+
+        .page-btn.active {
+            background-color: var(--primary-500);
+            color: white;
+            border-color: var(--primary-500);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: var(--bg-secondary);
+            padding: var(--space-5);
+            border-radius: var(--radius-md);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .modal-content h2 {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+            color: var(--text-primary);
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .modal-content label {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: var(--space-2);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: var(--font-size-sm);
+            transition: var(--transition-base);
+        }
+
+        .modal-content input:focus,
+        .modal-content select:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+
+        .modal-actions button {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: background-color var(--transition-base);
+        }
+
+        .modal-actions .cancel-btn {
+            background-color: var(--gray-200);
+            color: var(--text-secondary);
+            border: none;
+        }
+
+        .modal-actions .cancel-btn:hover {
+            background-color: var(--gray-300);
+        }
+
+        .modal-actions .submit-btn {
+            background-color: var(--primary-500);
+            color: white;
+            border: none;
+        }
+
+        .modal-actions .submit-btn:hover {
+            background-color: var(--primary-600);
+        }
+
+        .modal-content .close-modal {
+            position: absolute;
+            top: var(--space-3);
+            right: var(--space-3);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-tertiary);
+        }
+
+        .modal-content .close-modal:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: var(--sidebar-collapsed-width);
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: var(--sidebar-collapsed-width);
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .add-employee-btn {
+                width: 100%;
+                justify-content: center;
+                padding: var(--space-2) var(--space-3);
+                font-size: var(--font-size-xs);
+            }
+
+            .filter-selects {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .select-container select {
+                padding: var(--space-2) var(--space-3);
+                font-size: var(--font-size-xs);
+            }
+
+            .pagination-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .page-btn {
+                padding: 0 var(--space-2);
+                font-size: var(--font-size-xs);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .add-employee-btn {
+                padding: var(--space-1) var(--space-2);
+                font-size: var(--font-size-xs);
+            }
+
+            .select-container select {
+                padding: var(--space-1) var(--space-2);
+                font-size: var(--font-size-xs);
+            }
+
+            .employee-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-btn {
+                padding: 0 var(--space-1);
+                font-size: var(--font-size-xs);
+            }
+
+            .modal-content {
+                margin: 0 var(--space-4);
+                padding: var(--space-4);
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <h1>EmpowerHR</h1>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+                        <a href="{{ url_for('dashboard') }}">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="{% if request.endpoint == 'attendance' %}active{% endif %}">
+                        <a href="{{ url_for('attendance') }}">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>Attendance</span>
+                        </a>
+                    </li>
+                    <li class="{% if request.endpoint == 'leave' %}active{% endif %}">
+                        <a href="{{ url_for('leave') }}">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                            <span>Leave Management</span>
+                        </a>
+                    </li>
+                    <li class="{% if request.endpoint == 'directory' %}active{% endif %}">
+                        <a href="{{ url_for('directory') }}">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            <span>Directory</span>
+                        </a>
+                    </li>
+                    <li class="{% if request.endpoint == 'salary' %}active{% endif %}">
+                        <a href="{{ url_for('salary') }}">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Salary</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="sidebar-footer">
+                    <button class="theme-toggle" id="theme-toggle">
+                        <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <span class="theme-label">Toggle Theme</span>
+                    </button>
+                    <a class="logout-link" href="{{ url_for('logout') }}">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="directory-container">
+                <div class="header">
+                    <h1>Employee Directory</h1>
+                    <button class="add-employee-btn" id="addEmployeeBtn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Add Employee
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <div class="search-container">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search employees...">
+                    </div>
+
+                    <div class="filter-selects">
+                        <div class="select-container">
+                            <select id="departmentFilter">
+                                <option value="All Departments">All Departments</option>
+                            </select>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+
+                        <div class="select-container">
+                            <select id="locationFilter">
+                                <option value="All Locations">All Locations</option>
+                            </select>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="employee-grid" id="employeeGrid"></div>
+
+                <div class="pagination-container">
+                    <p class="pagination-info"></p>
+                    <div class="pagination" id="pagination"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Employee Modal -->
+        <div class="modal" id="addEmployeeModal">
+            <div class="modal-content">
+                <button class="close-modal" id="closeModalBtn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <h2>Add New Employee</h2>
+                <form id="addEmployeeForm">
+                    <div>
+                        <label for="employeeName">Name</label>
+                        <input type="text" id="employeeName" name="name" placeholder="e.g., Aarav Sharma" required>
+                    </div>
+                    <div>
+                        <label for="employeeTitle">Title</label>
+                        <input type="text" id="employeeTitle" name="title" placeholder="e.g., Software Engineer" required>
+                    </div>
+                    <div>
+                        <label for="employeeEmail">Email</label>
+                        <input type="email" id="employeeEmail" name="email" placeholder="e.g., aarav.sharma@company.in" required>
+                    </div>
+                    <div>
+                        <label for="employeeDepartment">Department</label>
+                        <select id="employeeDepartment" name="department" required>
+                            <option value="" disabled selected>Select Department</option>
+                            <option value="IT">IT</option>
+                            <option value="Product Management">Product Management</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Analytics">Analytics</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Customer Service">Customer Service</option>
+                            <option value="Project Management">Project Management</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="employeeLocation">Location</label>
+                        <select id="employeeLocation" name="location" required>
+                            <option value="" disabled selected>Select Location</option>
+                            <option value="Bengaluru">Bengaluru</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Ahmedabad">Ahmedabad</option>
+                            <option value="Kolkata">Kolkata</option>
+                            <option value="Gurugram">Gurugram</option>
+                            <option value="Noida">Noida</option>
+                            <option value="Jaipur">Jaipur</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="cancel-btn" id="cancelAddBtn">Cancel</button>
+                        <button type="submit" class="submit-btn">Add Employee</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@0.274.0/dist/umd/lucide.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // State
+            let currentPage = 1;
+            const employeesPerPage = 8;
+            let filteredEmployees = [];
+            let allEmployees = [];
+
+            // DOM Elements
+            const searchInput = document.getElementById('searchInput');
+            const departmentFilter = document.getElementById('departmentFilter');
+            const locationFilter = document.getElementById('locationFilter');
+            const employeeGrid = document.getElementById('employeeGrid');
+            const pagination = document.getElementById('pagination');
+            const paginationInfo = document.querySelector('.pagination-info');
+            const addEmployeeBtn = document.getElementById('addEmployeeBtn');
+            const addEmployeeModal = document.getElementById('addEmployeeModal');
+            const addEmployeeForm = document.getElementById('addEmployeeForm');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const cancelAddBtn = document.getElementById('cancelAddBtn');
+
+            // Fetch employees from backend
+            async function fetchEmployees() {
+                try {
+                    const response = await fetch('/api/employees');
+                    if (!response.ok) throw new Error('Failed to fetch employees');
+                    allEmployees = await response.json();
+                    filteredEmployees = [...allEmployees];
+                    populateFilters();
+                    renderEmployees();
+                    renderPagination();
+                } catch (error) {
+                    console.error('Error fetching employees:', error);
+                    employeeGrid.innerHTML = '<p class="text-center text-red-500">Error loading employees. Please try again.</p>';
+                }
+            }
+
+            // Populate filter dropdowns
+            function populateFilters() {
+                const departments = ['All Departments', ...new Set(allEmployees.map(emp => emp.department))];
+                const locations = ['All Locations', ...new Set(allEmployees.map(emp => emp.location))];
+
+                departmentFilter.innerHTML = departments.map(dept => `<option value="${dept}">${dept}</option>`).join('');
+                locationFilter.innerHTML = locations.map(loc => `<option value="${loc}">${loc}</option>`).join('');
+            }
+
+            // Filter employees
+            function filterEmployees() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const department = departmentFilter.value;
+                const location = locationFilter.value;
+
+                filteredEmployees = allEmployees.filter(employee => {
+                    const matchesSearch = 
+                        employee.name.toLowerCase().includes(searchTerm) ||
+                        employee.email.toLowerCase().includes(searchTerm) ||
+                        employee.title.toLowerCase().includes(searchTerm);
+                    
+                    const matchesDepartment = department === 'All Departments' || employee.department === department;
+                    const matchesLocation = location === 'All Locations' || employee.location === location;
+                    
+                    return matchesSearch && matchesDepartment && matchesLocation;
+                });
+
+                currentPage = 1;
+                renderEmployees();
+                renderPagination();
+            }
+
+            // Create employee card
+            function createEmployeeCard(employee) {
+                return `
+                    <div class="employee-card">
+                        <div class="employee-header">
+                            <img src="${employee.avatar || 'https://via.placeholder.com/64'}" alt="${employee.name}" class="employee-avatar">
+                            <div class="employee-info">
+                                <h3 class="employee-name">${employee.name}</h3>
+                                <p class="employee-title">${employee.title}</p>
+                            </div>
+                        </div>
+                        <div class="employee-details">
+                            <div class="detail-item">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                                </svg>
+                                <a href="mailto:${employee.email}">${employee.email}</a>
+                            </div>
+                            <div class="detail-item">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>${employee.department}</span>
+                            </div>
+                            <div class="detail-item">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span>${employee.location}</span>
+                            </div>
+                        </div>
+                        <div class="employee-actions">
+                            <button class="action-btn">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Render employees
+            function renderEmployees() {
+                const startIndex = (currentPage - 1) * employeesPerPage;
+                const endIndex = startIndex + employeesPerPage;
+                const currentEmployees = filteredEmployees.slice(startIndex, endIndex);
+
+                employeeGrid.innerHTML = currentEmployees.map(createEmployeeCard).join('');
+                lucide.createIcons();
+
+                paginationInfo.textContent = `Showing ${startIndex + 1} to ${Math.min(endIndex, filteredEmployees.length)} of ${filteredEmployees.length} employees`;
+            }
+
+            // Create pagination button
+            function createPageButton(content, isActive = false, isDisabled = false, onClick) {
+                const button = document.createElement('button');
+                button.className = `page-btn ${isActive ? 'active' : ''}`;
+                button.innerHTML = content;
+                button.disabled = isDisabled;
+                if (onClick) {
+                    button.addEventListener('click', onClick);
+                }
+                return button;
+            }
+
+            // Render pagination
+            function renderPagination() {
+                const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
+                pagination.innerHTML = '';
+
+                pagination.appendChild(
+                    createPageButton('<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>', false, currentPage === 1, () => {
+                        currentPage--;
+                        renderEmployees();
+                        renderPagination();
+                    })
+                );
+
+                let pages = [];
+                pages.push(1);
+                if (currentPage > 3) pages.push('...');
+                for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+                    if (i > 1 && i < totalPages) pages.push(i);
+                }
+                if (currentPage < totalPages - 2) pages.push('...');
+                if (totalPages > 1) pages.push(totalPages);
+
+                pages.forEach(page => {
+                    if (page === '...') {
+                        const span = document.createElement('span');
+                        span.textContent = '...';
+                        pagination.appendChild(span);
+                    } else {
+                        pagination.appendChild(
+                            createPageButton(page, page === currentPage, false, () => {
+                                currentPage = page;
+                                renderEmployees();
+                                renderPagination();
+                            })
+                        );
+                    }
+                });
+
+                pagination.appendChild(
+                    createPageButton('<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>', false, currentPage === totalPages, () => {
+                        currentPage++;
+                        renderEmployees();
+                        renderPagination();
+                    })
+                );
+
+                lucide.createIcons();
+            }
+
+            // Event listeners for filters
+            searchInput.addEventListener('input', filterEmployees);
+            departmentFilter.addEventListener('change', filterEmployees);
+            locationFilter.addEventListener('change', filterEmployees);
+
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            function toggleTheme() {
+                const body = document.body;
+                const isDark = body.classList.toggle('dark-theme');
+                body.classList.toggle('light-theme');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                sunIcon.style.display = isDark ? 'block' : 'none';
+                moonIcon.style.display = isDark ? 'none' : 'block';
+            }
+
+            // Initialize theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const body = document.body;
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-theme');
+                body.classList.remove('light-theme');
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                body.classList.add('light-theme');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Sidebar toggle
+            document.getElementById('sidebar-toggle').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+            });
+
+            // Add click event listeners for navigation with redirection
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const href = link.getAttribute('href');
+                    if (href !== '{{ url_for('logout') }}') {
+                        e.preventDefault();
+                        window.location.href = href;
+                    }
+                    document.querySelector('.sidebar-nav li.active')?.classList.remove('active');
+                    link.parentElement.classList.add('active');
+                });
+            });
+
+            // Modal handling
+            function openModal() {
+                addEmployeeModal.style.display = 'flex';
+            }
+
+            function closeModal() {
+                addEmployeeModal.style.display = 'none';
+                addEmployeeForm.reset();
+            }
+
+            addEmployeeBtn.addEventListener('click', openModal);
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelAddBtn.addEventListener('click', closeModal);
+
+            // Handle form submission
+            addEmployeeForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(addEmployeeForm);
+                const employeeData = {
+                    name: formData.get('name'),
+                    title: formData.get('title'),
+                    email: formData.get('email'),
+                    department: formData.get('department'),
+                    location: formData.get('location'),
+                    avatar: 'https://via.placeholder.com/150' // Default avatar
+                };
+
+                try {
+                    const response = await fetch('/api/employees', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(employeeData)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Failed to add employee');
+                    }
+
+                    const result = await response.json();
+                    alert(result.message);
+                    closeModal();
+                    await fetchEmployees(); // Refresh employee list
+                } catch (error) {
+                    console.error('Error adding employee:', error);
+                    alert(`Error: ${error.message}`);
+                }
+            });
+
+            // Initial fetch
+            fetchEmployees();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmpowerHR</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background-color: white;
+      color: black;
+    }
+
+    header {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li button {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+    }
+
+    nav ul li button:hover {
+      background-color: #333;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .left-section {
+      text-align: center;
+    }
+
+    .right-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .dashboard-preview {
+      background-color: #ccc;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      text-align: center;
+      color: white;
+      font-size: 0.875rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .card .icon {
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    footer a {
+      color: black;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    function HRManagementSystem() {
+      return (
+        <div>
+          {/* Header */}
+          <header>
+            <div className="container mx-auto px-4 py-6 flex justify-between items-center">
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-2 relative">
+                  <div className="w-6 h-6 bg-gray-400 rounded-full"></div>
+                  <div className="w-6 h-6 bg-gray-400 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                  <div className="w-6 h-6 bg-gray-400 rounded-full absolute bottom-0 right-0"></div>
+                </div>
+                <span className="text-sm">EmpowerHR</span>
+              </div>
+              <nav>
+                <ul>
+                  <li>
+                    <button className="bg-black text-white px-4 py-2 rounded">Login</button>
+                  </li>
+                  <li>
+                    <button className="bg-black text-white px-4 py-2 rounded">Get Started</button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </header>
+
+          {/* Main Content */}
+          <main className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
+            {/* Left Section */}
+            <div className="left-section md:w-1/2">
+              <h1 className="text-4xl font-bold mb-4">Streamline Your Employee Management</h1>
+              <p className="text-lg text-gray-600 mb-6">Simplify HR processes and boost productivity with our comprehensive employee management system.</p>
+              <button className="bg-black text-white px-4 py-2 rounded">Start Free Trial</button>
+            </div>
+
+            {/* Right Section */}
+            <div className="right-section md:w-1/2">
+              <div className="dashboard-preview">
+                Dashboard Preview
+              </div>
+              <div className="cards">
+                <div className="card">
+                  <div className="icon">
+                    <i data-lucide="users" className="w-6 h-6 mx-auto"></i>
+                  </div>
+                  <h2 className="font-bold">Time Tracking</h2>
+                  <p>Effortlessly track employee hours and attendance.</p>
+                </div>
+                <div className="card">
+                  <div className="icon">
+                    <i data-lucide="star" className="w-6 h-6 mx-auto"></i>
+                  </div>
+                  <h2 className="font-bold">Performance Analytics</h2>
+                  <p>Analyze employee performance with detailed metrics.</p>
+                </div>
+                <div className="card">
+                  <div className="icon">
+                    <i data-lucide="dollar-sign" className="w-6 h-6 mx-auto"></i>
+                  </div>
+                  <h2 className="font-bold">Payroll Management</h2>
+                  <p>Manage payroll efficiently and accurately.</p>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          {/* Footer */}
+          <footer>
+            <div className="container mx-auto px-4 py-6 text-center">
+              <p>&copy; 2023 EmpowerHR. All rights reserved.</p>
+              <div className="mt-2">
+                <a href="/about" className="text-sm text-gray-600 hover:underline mr-4">About Us</a>
+                <a href="/contact" className="text-sm text-gray-600 hover:underline mr-4">Contact Us</a>
+                <a href="/terms" className="text-sm text-gray-600 hover:underline">Terms of Service</a>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<HRManagementSystem />, document.getElementById('root'));
+    
+    // Initialize Lucide icons after React renders the component
+    document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

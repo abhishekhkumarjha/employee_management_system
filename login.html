@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Management Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" href="/static/favicon.ico">
+  <style>
+    .logo {
+      width: 100px;
+      height: 100px;
+      background-color: #333;
+      border-radius: 50%;
+      position: relative;
+      margin: 0 auto;
+    }
+    .logo::before,
+    .logo::after {
+      content: '';
+      position: absolute;
+      background-color: #333;
+      border-radius: 50%;
+    }
+    .logo::before {
+      width: 60px;
+      height: 60px;
+      top: 20px;
+      left: 20px;
+    }
+    .logo::after {
+      width: 30px;
+      height: 30px;
+      top: 35px;
+      left: 35px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Header Section -->
+  <header class="bg-black text-white p-4">
+    <div class="container mx-auto">
+      <a href="/dashboard" class="text-white font-bold">EmpowerHR</a>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex items-center justify-center min-h-[calc(100vh-68px)] py-8">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-4">
+      <div class="logo mb-6"></div>
+      
+      <!-- Login Form -->
+      <div id="login-form">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">Employee Management</h2>
+        <p class="text-gray-600 mb-6 text-center">Sign in to your account</p>
+        
+        <!-- Flash Messages -->
+        <div id="message" class="mb-4 p-2 rounded text-white {% if messages %} {% for category, _ in messages %} {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }} {% endfor %} {% else %} hidden {% endif %}">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                {{ message }}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+        
+        <form action="/login" method="POST" id="loginForm">
+          <div class="mb-4">
+            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email address</label>
+            <input type="email" id="email" name="email" placeholder="Email address" 
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent" required />
+          </div>
+          
+          <div class="mb-6">
+            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" 
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent" required />
+          </div>
+          
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+              <input id="remember" type="checkbox" name="remember" class="h-4 w-4 text-gray-700 focus:ring-gray-500 border-gray-300 rounded" />
+              <label for="remember" class="ml-2 block text-gray-700 text-sm">Remember me</label>
+            </div>
+            <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Forgot password?</a>
+          </div>
+          
+          <div class="mb-4">
+            <button type="submit" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 w-full transition duration-150">
+              Sign In
+            </button>
+          </div>
+          
+          <div class="mt-4 text-center">
+            <p class="text-sm text-gray-600">
+              Don't have an account? <a href="#" id="show-signup" class="font-bold text-gray-800 hover:text-gray-900">Contact Admin</a>
+            </p>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Signup Form (Hidden by default) -->
+      <div id="signup-form" class="hidden">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">Create Account</h2>
+        <p class="text-gray-600 mb-6 text-center">Sign up for Employee Management</p>
+        
+        <form action="/signup" method="POST">
+          <div class="mb-4">
+            <label for="signup-email" class="block text-gray-700 text-sm font-bold mb-2">Email address</label>
+            <input type="email" id="signup-email" name="email" placeholder="Email address" 
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent" required />
+          </div>
+          
+          <div class="mb-6">
+            <label for="signup-password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+            <input type="password" id="signup-password" name="password" placeholder="Password" 
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent" required />
+          </div>
+          
+          <div class="mb-4">
+            <button type="submit" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focusunofficial: true
+            focus:ring-gray-500 focus:ring-offset-2 w-full transition duration-150">
+              Sign Up
+            </button>
+          </div>
+          
+          <div class="mt-4 text-center">
+            <p class="text-sm text-gray-600">
+              Already have an account? <a href="#" id="show-login" class="font-bold text-gray-800 hover:text-gray-900">Sign In</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Toggle between login and signup forms
+    document.getElementById('show-signup').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('login-form').classList.add('hidden');
+      document.getElementById('signup-form').classList.remove('hidden');
+    });
+
+    document.getElementById('show-login').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('signup-form').classList.add('hidden');
+      document.getElementById('login-form').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
