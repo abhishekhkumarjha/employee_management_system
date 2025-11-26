@@ -84,37 +84,7 @@ employee_management_system/
 └── README.md
 ```
 
-## 🔧 Configuration
 
-### Database Configuration
-```php
-// config/database.php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'your_username');
-define('DB_PASS', 'your_password');
-define('DB_NAME', 'employee_management');
-```
-
-### Email Configuration (Optional)
-```php
-// config/email.php
-define('SMTP_HOST', 'smtp.gmail.com');
-define('SMTP_PORT', 587);
-define('SMTP_USER', 'your_email@gmail.com');
-define('SMTP_PASS', 'your_password');
-```
-
-## 👥 Default Users
-
-After installation, you can log in with these default credentials:
-
-| Role | Username | Password |
-|------|----------|----------|
-| Admin | admin | admin123 |
-| HR | hr_user | hr123 |
-| Employee | employee | emp123 |
-
-**⚠️ Important**: Change default passwords after first login.
 
 ## 📖 Usage
 
@@ -145,50 +115,7 @@ After installation, you can log in with these default credentials:
 - Session timeout
 - File upload validation
 
-## 🤝 Contributing
 
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Coding Standards
-- Follow PSR-12 coding standards (for PHP)
-- Use meaningful variable and function names
-- Add comments for complex logic
-- Write unit tests for new features
-
-## 🐛 Bug Reports
-
-If you encounter any bugs, please create an issue with:
-- Detailed description of the bug
-- Steps to reproduce
-- Expected vs actual behavior
-- Screenshots (if applicable)
-- System information
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Support
-
-If you need help or have questions:
-- Create an issue on GitHub
-- Email: abhishekhkumarjha@example.com
-- Documentation: [Wiki](https://github.com/abhishekhkumarjha/employee_management_system/wiki)
-
-## 🎯 Roadmap
-
-- [ ] Mobile responsive design improvements
-- [ ] REST API development
-- [ ] Mobile app integration
-- [ ] Advanced analytics dashboard
-- [ ] Multi-language support
-- [ ] Cloud deployment options
 
 ## ✨ Screenshots
 
