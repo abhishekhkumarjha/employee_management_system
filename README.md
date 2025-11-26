@@ -47,9 +47,9 @@ A comprehensive employee management system designed to streamline HR operations 
 ## 🛠️ Technology Stack
 
 - **Frontend**: HTML5, CSS3, JavaScript, Bootstrap
-- **Backend**: PHP/Python/Node.js (specify your stack)
-- **Database**: MySQL/PostgreSQL
-- **Authentication**: JWT/Session-based
+- **Backend**: FLASK (Python)
+- **Database**: MySQL
+- **Authentication**: JWT
 - **Additional Libraries**: 
   - Chart.js for analytics
   - DataTables for data management
@@ -59,63 +59,9 @@ A comprehensive employee management system designed to streamline HR operations 
 
 Before running this application, make sure you have the following installed:
 
-- Web server (Apache/Nginx)
-- PHP 7.4+ / Python 3.8+ / Node.js 14+ (based on your implementation)
-- MySQL 5.7+ or PostgreSQL 12+
-- Composer (for PHP) / pip (for Python) / npm (for Node.js)
+- Python 3.8+ 
+- MySQL 5.7+ 
 
-## 🚀 Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/abhishekhkumarjha/employee_management_system.git
-   cd employee_management_system
-   ```
-
-2. **Install dependencies**
-   ```bash
-   # For PHP projects
-   composer install
-   
-   # For Python projects
-   pip install -r requirements.txt
-   
-   # For Node.js projects
-   npm install
-   ```
-
-3. **Database Setup**
-   ```bash
-   # Create database
-   mysql -u root -p
-   CREATE DATABASE employee_management;
-   
-   # Import database schema
-   mysql -u root -p employee_management < database/schema.sql
-   ```
-
-4. **Configuration**
-   - Copy `config.example.php` to `config.php` (or equivalent)
-   - Update database credentials
-   - Configure email settings (if applicable)
-   - Set up file upload paths
-
-5. **Start the application**
-   ```bash
-   # For PHP (using built-in server)
-   php -S localhost:8000
-   
-   # For Python (Django/Flask)
-   python manage.py runserver
-   # or
-   flask run
-   
-   # For Node.js
-   npm start
-   ```
-
-6. **Access the application**
-   Open your browser and navigate to `http://localhost:8000`
 
 ## 📁 Project Structure
 
