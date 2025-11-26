@@ -137,6 +137,4 @@ employee_management_system/
 
 ---
 
-**Made with ❤️ by [Abhishek Kumar Jha](https://github.com/abhishekhkumarjha)**
 
-## ⭐ Star this repository if you found it helpful!
