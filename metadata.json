@@ -1,0 +1,6 @@
+{
+  "name": "HRPulse: Employee Management System",
+  "description": "A comprehensive HR platform for managing employees, attendance, payroll, and organizational data with real-time analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["authentication", "database", "analytics"]
+}
