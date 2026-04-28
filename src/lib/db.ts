@@ -3,13 +3,34 @@ import path from 'path';
 import fs from 'fs';
 import bcrypt from 'bcryptjs';
 
-const dbPath = process.env.DATABASE_PATH || path.join(process.cwd(), 'database.sqlite');
-const dbDir = path.dirname(dbPath);
+function prepareDatabasePath() {
+  const requestedPath = process.env.DATABASE_PATH || path.join(process.cwd(), 'database.sqlite');
+  const fallbackPath = process.env.RENDER
+    ? path.join('/tmp', 'database.sqlite')
+    : path.join(process.cwd(), 'database.sqlite');
 
-// Ensure the database file exists
-if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true });
+  try {
+    const dbDir = path.dirname(requestedPath);
+    if (!fs.existsSync(dbDir)) {
+      fs.mkdirSync(dbDir, { recursive: true });
+    }
+
+    fs.accessSync(dbDir, fs.constants.W_OK);
+    return requestedPath;
+  } catch (error: any) {
+    if (requestedPath === fallbackPath) {
+      throw error;
+    }
+
+    console.warn(
+      `Unable to use DATABASE_PATH "${requestedPath}" (${error.message}). Falling back to "${fallbackPath}".`
+    );
+
+    return fallbackPath;
+  }
 }
+
+const dbPath = prepareDatabasePath();
 
 if (!fs.existsSync(dbPath)) {
   fs.writeFileSync(dbPath, '');

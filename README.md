@@ -84,7 +84,7 @@ NODE_VERSION=22
 NODE_ENV=production
 JWT_SECRET=<use-a-long-random-secret>
 CLIENT_URLS=https://your-vercel-app.vercel.app
-DATABASE_PATH=/var/data/database.sqlite
+DATABASE_PATH=/tmp/database.sqlite
 ```
 
 After Vercel gives you the final frontend URL, update `CLIENT_URLS` in Render. For multiple allowed frontend URLs, separate them with commas:
@@ -93,7 +93,7 @@ After Vercel gives you the final frontend URL, update `CLIENT_URLS` in Render. F
 CLIENT_URLS=https://your-vercel-app.vercel.app,https://your-custom-domain.com
 ```
 
-SQLite note: Render free web services use an ephemeral filesystem, so `database.sqlite` will reset on redeploy/restart/spin-down. For persistent SQLite data, attach a paid Render disk mounted at `/var/data`. For a production system, moving the database to Postgres is recommended.
+SQLite note: Render free web services use an ephemeral filesystem, so `/tmp/database.sqlite` will reset on redeploy/restart/spin-down. For persistent SQLite data, attach a paid Render disk mounted at `/var/data` and change `DATABASE_PATH` to `/var/data/database.sqlite`. For a production system, moving the database to Postgres is recommended.
 
 ### Vercel Frontend
 
