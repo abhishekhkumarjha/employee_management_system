@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import path from "path";
+import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -10,11 +11,24 @@ import db from "./src/lib/db.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-very-secret-key";
 const PORT = Number(process.env.PORT || 3000);
+const CLIENT_URLS = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "")
+  .split(",")
+  .map((url) => url.trim())
+  .filter(Boolean);
 
 async function startServer() {
   const app = express();
 
-  app.use(cors());
+  app.use(cors({
+    origin(origin, callback) {
+      if (!origin || CLIENT_URLS.length === 0 || CLIENT_URLS.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
+  }));
   app.use(express.json());
 
   app.get("/api/health", (_req, res) => {
@@ -275,10 +289,22 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
+    const hasClientBuild = fs.existsSync(path.join(distPath, 'index.html'));
+
+    if (hasClientBuild) {
+      app.use(express.static(distPath));
+      app.get('*', (req, res) => {
+        res.sendFile(path.join(distPath, 'index.html'));
+      });
+    } else {
+      app.get('/', (_req, res) => {
+        res.json({
+          name: 'HRPulse API',
+          status: 'ok',
+          health: '/api/health',
+        });
+      });
+    }
   }
 
   app.listen(PORT, "0.0.0.0", () => {

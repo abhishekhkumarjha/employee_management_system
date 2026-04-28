@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: hrpulse-api
+    runtime: node
+    buildCommand: npm ci
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_URLS
+        sync: false
+      - key: DATABASE_PATH
+        value: /var/data/database.sqlite
+    disk:
+      name: hrpulse-data
+      mountPath: /var/data
+      sizeGB: 1

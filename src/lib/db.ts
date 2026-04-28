@@ -3,9 +3,14 @@ import path from 'path';
 import fs from 'fs';
 import bcrypt from 'bcryptjs';
 
-const dbPath = path.join(process.cwd(), 'database.sqlite');
+const dbPath = process.env.DATABASE_PATH || path.join(process.cwd(), 'database.sqlite');
+const dbDir = path.dirname(dbPath);
 
 // Ensure the database file exists
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
+
 if (!fs.existsSync(dbPath)) {
   fs.writeFileSync(dbPath, '');
 }
