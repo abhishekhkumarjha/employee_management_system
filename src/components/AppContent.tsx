@@ -108,16 +108,14 @@ export default function AppContent() {
 
   const sidebarItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'employees', label: 'Employees', icon: Users, allowedRoles: ['admin', 'manager'] },
+    { id: 'employees', label: 'Employees', icon: Users },
     { id: 'attendance', label: 'Attendance', icon: Clock },
     { id: 'payroll', label: 'Payroll', icon: CreditCard },
-    { id: 'departments', label: 'Departments', icon: Building2, allowedRoles: ['admin'] },
+    { id: 'departments', label: 'Departments', icon: Building2 },
     { id: 'settings', label: 'Settings', icon: SettingsIcon },
   ];
 
-  const filteredItems = sidebarItems.filter(item => 
-    !item.allowedRoles || item.allowedRoles.includes(user.role)
-  );
+  const filteredItems = sidebarItems;
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] flex font-sans text-[#1A1A1A]">

@@ -125,17 +125,9 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
         </form>
 
         <div className="relative z-10 text-center space-y-4">
-          <div className="space-y-2">
-            <p className="text-[10px] text-gray-400 font-medium tracking-tight bg-gray-50 py-2 px-4 rounded-full inline-block">
-              Admin: <span className="text-indigo-600 font-bold">admin@hrpulse.com</span> / <span className="text-indigo-600 font-bold">admin123</span>
-            </p>
-            <p className="text-[10px] text-gray-400 font-medium tracking-tight bg-gray-50 py-2 px-4 rounded-full inline-block">
-              Manager: <span className="text-indigo-600 font-bold">manager@hrpulse.com</span> / <span className="text-indigo-600 font-bold">manager123</span>
-            </p>
-            <p className="text-[10px] text-gray-400 font-medium tracking-tight bg-gray-50 py-2 px-4 rounded-full inline-block">
-              Employee: <span className="text-indigo-600 font-bold">employee@hrpulse.com</span> / <span className="text-indigo-600 font-bold">employee123</span>
-            </p>
-          </div>
+          <p className="text-[10px] text-gray-400 font-medium tracking-tight bg-gray-50 py-2 px-4 rounded-full inline-block">
+            Admin Access: <span className="text-indigo-600 font-bold">admin@hrpulse.com</span> / <span className="text-indigo-600 font-bold">admin123</span>
+          </p>
         </div>
       </motion.div>
 

@@ -13,33 +13,19 @@ export interface AuthResponse {
   message?: string;
 }
 
-// Mock user database
+// Mock user database - Admin only
 const mockUsers: User[] = [
   {
     id: 'admin-001',
     name: 'Admin User',
     email: 'admin@hrpulse.com',
     role: 'admin'
-  },
-  {
-    id: 'manager-001',
-    name: 'Manager User',
-    email: 'manager@hrpulse.com',
-    role: 'manager'
-  },
-  {
-    id: 'employee-001',
-    name: 'Employee User',
-    email: 'employee@hrpulse.com',
-    role: 'employee'
   }
 ];
 
 // Mock password storage (in real app, this would be hashed)
 const mockPasswords: Record<string, string> = {
-  'admin@hrpulse.com': 'admin123',
-  'manager@hrpulse.com': 'manager123',
-  'employee@hrpulse.com': 'employee123'
+  'admin@hrpulse.com': 'admin123'
 };
 
 // Generate a simple JWT-like token (for demo purposes)
