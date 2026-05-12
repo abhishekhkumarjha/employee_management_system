@@ -21,7 +21,7 @@ import Payroll from './Payroll';
 import DepartmentList from './DepartmentList';
 import Settings from './Settings';
 import Login from './Login';
-import { apiFetch } from '../lib/api';
+import { getCurrentUser } from '../lib/auth';
 
 type View = 'dashboard' | 'employees' | 'attendance' | 'payroll' | 'departments' | 'settings';
 type AppNotification = {
@@ -42,10 +42,9 @@ export default function AppContent() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
-    if (storedUser && token) {
-      setUser(JSON.parse(storedUser));
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
     }
 
     const checkMobile = () => {
@@ -61,11 +60,27 @@ export default function AppContent() {
   useEffect(() => {
     if (!user) return;
 
-    apiFetch('/notifications')
-      .then((items) => {
-        if (items) setNotifications(items);
-      })
-      .catch(() => setNotifications([]));
+    // Mock notifications for demo
+    const mockNotifications: AppNotification[] = [
+      {
+        id: '1',
+        title: 'Welcome to HRPulse',
+        message: 'Your account has been successfully created and configured.',
+        type: 'success',
+        isRead: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: '2',
+        title: 'System Update',
+        message: 'New features have been added to improve your experience.',
+        type: 'info',
+        isRead: true,
+        createdAt: new Date(Date.now() - 86400000).toISOString()
+      }
+    ];
+    
+    setNotifications(mockNotifications);
   }, [user]);
 
   const handleLogout = () => {
@@ -77,17 +92,13 @@ export default function AppContent() {
 
   const unreadCount = notifications.filter((notification) => !notification.isRead).length;
 
-  const handleToggleNotifications = async () => {
+  const handleToggleNotifications = () => {
     const shouldOpen = !isNotificationsOpen;
     setIsNotificationsOpen(shouldOpen);
 
     if (shouldOpen && unreadCount > 0) {
-      try {
-        await apiFetch('/notifications/read', { method: 'PUT' });
-        setNotifications((items) => items.map((item) => ({ ...item, isRead: true })));
-      } catch {
-        // Keep the dropdown usable even if the read receipt fails.
-      }
+      // Mark all notifications as read
+      setNotifications((items) => items.map((item) => ({ ...item, isRead: true })));
     }
   };
 

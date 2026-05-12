@@ -8,6 +8,7 @@ import {
   User
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { clientLogin } from '../lib/auth';
 
 export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
   const [email, setEmail] = useState('');
@@ -21,18 +22,15 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
     setError('');
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await clientLogin(email, password);
+      
+      if (!response.success) {
+        throw new Error(response.message || 'Login failed');
+      }
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Login failed');
-
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      onLogin(data.user);
+      localStorage.setItem('token', response.token!);
+      localStorage.setItem('user', JSON.stringify(response.user));
+      onLogin(response.user);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -127,9 +125,17 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
         </form>
 
         <div className="relative z-10 text-center space-y-4">
-          <p className="text-[10px] text-gray-400 font-medium tracking-tight bg-gray-50 py-2 px-4 rounded-full inline-block">
-            Demo Admin: <span className="text-indigo-600 font-bold">admin@hrpulse.com</span> / <span className="text-indigo-600 font-bold">admin123</span>
-          </p>
+          <div className="space-y-2">
+            <p className="text-[10px] text-gray-400 font-medium tracking-tight bg-gray-50 py-2 px-4 rounded-full inline-block">
+              Admin: <span className="text-indigo-600 font-bold">admin@hrpulse.com</span> / <span className="text-indigo-600 font-bold">admin123</span>
+            </p>
+            <p className="text-[10px] text-gray-400 font-medium tracking-tight bg-gray-50 py-2 px-4 rounded-full inline-block">
+              Manager: <span className="text-indigo-600 font-bold">manager@hrpulse.com</span> / <span className="text-indigo-600 font-bold">manager123</span>
+            </p>
+            <p className="text-[10px] text-gray-400 font-medium tracking-tight bg-gray-50 py-2 px-4 rounded-full inline-block">
+              Employee: <span className="text-indigo-600 font-bold">employee@hrpulse.com</span> / <span className="text-indigo-600 font-bold">employee123</span>
+            </p>
+          </div>
         </div>
       </motion.div>
 
