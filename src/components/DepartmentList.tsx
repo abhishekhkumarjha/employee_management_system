@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { 
   Plus, 
   Search, 
-  Building2, 
-  User, 
+  MoreHorizontal, 
   MoreVertical,
+  Building2,
+  Users,
   X
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { apiFetch } from '../lib/api';
+import { mockDepartments } from '../lib/mockData';
 
 export default function DepartmentList({ user }: { user: any }) {
   const [departments, setDepartments] = useState<any[]>([]);
@@ -25,12 +26,10 @@ export default function DepartmentList({ user }: { user: any }) {
 
   const loadData = async () => {
     try {
-      const [depts, emps] = await Promise.all([
-        apiFetch('/departments'),
-        apiFetch('/employees')
-      ]);
-      setDepartments(depts);
-      setEmployees(emps);
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setDepartments(mockDepartments);
+      setEmployees([]); // We'll use mock employees from employee component
     } catch (e) {
       console.error(e);
     } finally {
@@ -41,10 +40,8 @@ export default function DepartmentList({ user }: { user: any }) {
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await apiFetch('/departments', {
-        method: 'POST',
-        body: JSON.stringify(formData)
-      });
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       setIsAddOpen(false);
       setFormData({ name: '', manager_id: '', description: '' });
       loadData();
@@ -97,7 +94,7 @@ export default function DepartmentList({ user }: { user: any }) {
               <div className="pt-4 border-t border-gray-50 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center text-[10px] font-bold">
-                    <User className="w-3 h-3 text-gray-400" />
+                    <Users className="w-3 h-3 text-gray-400" />
                   </div>
                   <span className="text-xs font-medium text-gray-600">
                     {employees.find(e => e.id === dept.manager_id)?.name || 'Needs Manager'}

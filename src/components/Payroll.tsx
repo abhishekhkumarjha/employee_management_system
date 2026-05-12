@@ -7,7 +7,7 @@ import {
   Zap,
   Info
 } from 'lucide-react';
-import { apiFetch } from '../lib/api';
+import { mockPayroll } from '../lib/mockData';
 
 export default function Payroll({ user }: { user: any }) {
   const [records, setRecords] = useState<any[]>([]);
@@ -19,8 +19,9 @@ export default function Payroll({ user }: { user: any }) {
 
   const loadPayroll = async () => {
     try {
-      const data = await apiFetch('/payroll');
-      setRecords(data);
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setRecords(mockPayroll);
     } catch (e) {
       console.error(e);
     } finally {

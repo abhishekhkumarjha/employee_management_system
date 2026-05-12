@@ -10,7 +10,7 @@ import {
   X
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { apiFetch } from '../lib/api';
+import { getEmployees, addEmployee } from '../lib/employees';
 
 export default function EmployeeList({ user }: { user: any }) {
   const [employees, setEmployees] = useState<any[]>([]);
@@ -27,7 +27,7 @@ export default function EmployeeList({ user }: { user: any }) {
 
   const loadEmployees = async () => {
     try {
-      const data = await apiFetch('/employees');
+      const data = await getEmployees();
       setEmployees(data);
     } catch (e) {
       console.error(e);
@@ -41,9 +41,10 @@ export default function EmployeeList({ user }: { user: any }) {
     if (!isAdmin) return;
     setIsSubmitting(true);
     try {
-      await apiFetch('/employees', {
-        method: 'POST',
-        body: JSON.stringify(formData)
+      await addEmployee({
+        name: formData.name,
+        email: formData.email,
+        role: formData.role as 'admin' | 'manager' | 'employee'
       });
       setIsAddOpen(false);
       setFormData({ name: '', email: '', password: '', role: 'employee' });

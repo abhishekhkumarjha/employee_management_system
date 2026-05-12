@@ -18,7 +18,7 @@ import {
   AreaChart,
   Area
 } from 'recharts';
-import { apiFetch } from '../lib/api';
+import { mockDepartments, mockAttendance, mockPayroll } from '../lib/mockData';
 
 const data = [
   { name: 'Mon', count: 42 },
@@ -41,7 +41,14 @@ export default function Dashboard({ user }: { user: any }) {
 
   useEffect(() => {
     if (user.role === 'admin' || user.role === 'manager') {
-      apiFetch('/analytics/summary').then(setSummary);
+      // Mock summary data
+      const mockSummary = {
+        totalEmployees: 3,
+        totalDepartments: mockDepartments.length,
+        pendingLeaves: 2,
+        todayAttendance: mockAttendance.filter(a => a.date === new Date().toISOString().split('T')[0]).length
+      };
+      setSummary(mockSummary);
     }
   }, [user.role]);
 

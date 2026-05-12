@@ -7,8 +7,8 @@ import {
   CheckCircle2,
   AlertCircle
 } from 'lucide-react';
-import { apiFetch } from '../lib/api';
 import { cn } from '../lib/utils';
+import { mockAttendance } from '../lib/mockData';
 
 export default function Attendance({ user }: { user: any }) {
   const [status, setStatus] = useState<any>(null);
@@ -22,8 +22,11 @@ export default function Attendance({ user }: { user: any }) {
 
   const loadStatus = async () => {
     try {
-      const data = await apiFetch('/attendance/status');
-      setStatus(data);
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const today = new Date().toISOString().split('T')[0];
+      const todayRecord = mockAttendance.find(a => a.user_id === user.id && a.date === today);
+      setStatus(todayRecord || null);
     } catch (e) {
       console.error(e);
     }
@@ -31,8 +34,18 @@ export default function Attendance({ user }: { user: any }) {
 
   const handleCheckIn = async () => {
     try {
-      await apiFetch('/attendance/check-in', { method: 'POST' });
-      loadStatus();
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const today = new Date().toISOString().split('T')[0];
+      const newRecord = {
+        id: `att-${Date.now()}`,
+        user_id: user.id,
+        date: today,
+        clock_in: new Date().toISOString(),
+        status: 'present' as const
+      };
+      mockAttendance.push(newRecord);
+      setStatus(newRecord);
     } catch (e: any) {
       alert(e.message);
     }
@@ -40,8 +53,14 @@ export default function Attendance({ user }: { user: any }) {
 
   const handleCheckOut = async () => {
     try {
-      await apiFetch('/attendance/check-out', { method: 'POST' });
-      loadStatus();
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const today = new Date().toISOString().split('T')[0];
+      const recordIndex = mockAttendance.findIndex(a => a.user_id === user.id && a.date === today);
+      if (recordIndex !== -1) {
+        mockAttendance[recordIndex].clock_out = new Date().toISOString();
+        setStatus(mockAttendance[recordIndex]);
+      }
     } catch (e: any) {
       alert(e.message);
     }

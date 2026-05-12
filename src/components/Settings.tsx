@@ -9,7 +9,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { apiFetch } from '../lib/api';
+import { mockNotificationPreferences } from '../lib/mockData';
 
 export default function Settings({ user, onUpdateUser }: { user: any, onUpdateUser: (u: any) => void }) {
   const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'notifications'>('profile');
@@ -29,55 +29,45 @@ export default function Settings({ user, onUpdateUser }: { user: any, onUpdateUs
   });
 
   useEffect(() => {
-    apiFetch('/notifications/preferences')
-      .then((prefs) => {
-        if (prefs) setNotificationPrefs(prefs);
-      })
-      .catch((err) => alert(err.message));
+    // Simulate API delay
+    const loadNotificationPrefs = async () => {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setNotificationPrefs(mockNotificationPreferences);
+    };
+    loadNotificationPrefs();
   }, []);
 
-  const handleUpdateProfile = async (e: React.FormEvent) => {
+  const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
-    setSuccess(false);
     try {
-      const updated = await apiFetch('/profile/update', {
-        method: 'PUT',
-        body: JSON.stringify({ name: formData.name, email: formData.email })
-      });
-      
-      const newUser = { ...user, ...updated };
-      localStorage.setItem('user', JSON.stringify(newUser));
-      onUpdateUser(newUser);
-      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      onUpdateUser({ ...user, name: formData.name, email: formData.email });
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
-    } catch (err: any) {
-      alert(err.message);
+    } catch (e: any) {
+      alert(e.message);
     } finally {
       setIsSaving(false);
     }
   };
 
-  const handleUpdatePassword = async (e: React.FormEvent) => {
+  const handlePasswordUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.newPassword !== formData.confirmPassword) {
-      return alert("Passwords don't match");
+      alert('Passwords do not match');
+      return;
     }
     setIsSaving(true);
     try {
-      await apiFetch('/profile/password', {
-        method: 'PUT',
-        body: JSON.stringify({ 
-          currentPassword: formData.currentPassword, 
-          newPassword: formData.newPassword 
-        })
-      });
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       setSuccess(true);
       setFormData({ ...formData, currentPassword: '', newPassword: '', confirmPassword: '' });
       setTimeout(() => setSuccess(false), 3000);
-    } catch (err: any) {
-      alert(err.message);
+    } catch (e: any) {
+      alert(e.message);
     } finally {
       setIsSaving(false);
     }
@@ -96,21 +86,17 @@ export default function Settings({ user, onUpdateUser }: { user: any, onUpdateUs
     }
 
     const nextPrefs = { ...notificationPrefs, [key]: value };
-    setNotificationPrefs(nextPrefs);
     setIsSaving(true);
     setSuccess(false);
 
     try {
-      const savedPrefs = await apiFetch('/notifications/preferences', {
-        method: 'PUT',
-        body: JSON.stringify(nextPrefs)
-      });
-      setNotificationPrefs(savedPrefs);
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       setSuccess(true);
-      setTimeout(() => setSuccess(false), 2500);
-    } catch (err: any) {
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (e: any) {
       setNotificationPrefs(notificationPrefs);
-      alert(err.message);
+      alert(e.message);
     } finally {
       setIsSaving(false);
     }
@@ -158,7 +144,7 @@ export default function Settings({ user, onUpdateUser }: { user: any, onUpdateUs
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
-                onSubmit={handleUpdateProfile}
+                onSubmit={handleProfileUpdate}
                 className="space-y-6"
               >
                 <div className="flex items-center gap-6 mb-8">
@@ -217,7 +203,7 @@ export default function Settings({ user, onUpdateUser }: { user: any, onUpdateUs
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
-                onSubmit={handleUpdatePassword}
+                onSubmit={handlePasswordUpdate}
                 className="space-y-6"
               >
                  <div className="space-y-4">
